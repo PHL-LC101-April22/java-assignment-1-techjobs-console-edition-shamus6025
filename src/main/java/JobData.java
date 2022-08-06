@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,8 +79,7 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -95,11 +95,27 @@ public class JobData {
      */
     public static ArrayList<HashMap<String, String>> findByValue(String value) {
 
-        // load data, if not already loaded
+        //load data, if not already loaded
         loadData();
 
-        // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+
+            for (Map.Entry<String, String> key : row.entrySet()) {
+                String aValue = key.getValue();
+
+                if (jobs.contains(row)) {
+                    continue;
+                }
+
+                if (aValue.toLowerCase().contains(value.toLowerCase())) {
+                    jobs.add(row);
+                }
+            }
+        }
+
+        return jobs;
     }
 
     /**
